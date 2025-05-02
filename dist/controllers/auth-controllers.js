@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logIn = void 0;
+exports.getUserDetails = exports.logIn = void 0;
 const database_config_1 = __importDefault(require("../utils/database.config"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -57,11 +57,26 @@ const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
         res.status(500).json({
-            message: "Something went wrong.",
+            message: "Something went wrong",
             error: error instanceof Error ? error.message : error,
         });
     }
 });
 exports.logIn = logIn;
+const getUserDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = req.user;
+        res.status(200).json({
+            message: "User details retrived successfully",
+            data: user
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error instanceof Error ? error.message : error
+        });
+    }
+});
+exports.getUserDetails = getUserDetails;
