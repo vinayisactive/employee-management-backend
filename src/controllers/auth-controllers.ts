@@ -13,6 +13,7 @@ export const logIn = async (
   res: Response
 ) => {
   try {
+    
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -64,11 +65,29 @@ export const logIn = async (
         token,
       },
     });
+
   } catch (error) {
-    console.log(error);
     res.status(500).json({
-      message: "Something went wrong.",
+      message: "Something went wrong",
       error: error instanceof Error ? error.message : error,
     });
   }
 };
+
+export const  getUserDetails = async(req: Request, res: Response) => {
+  try {
+      
+    const user = req.user; 
+      
+      res.status(200).json({
+        message: "User details retrived successfully",
+        data: user
+      }); 
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong",
+      error: error instanceof Error ? error.message : error
+    })
+  }
+}

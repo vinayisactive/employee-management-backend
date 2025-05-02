@@ -1,7 +1,12 @@
 import { Router } from "express";
-import { logIn } from "../controllers/auth-controllers";
+import { getUserDetails, logIn } from "../controllers/auth-controllers";
+import authMiddleware from "../middlewares/auth-middleware";
  
 const authRouter = Router(); 
-authRouter.post("/login", logIn)
+
+authRouter
+.get("/", authMiddleware, getUserDetails)
+.post("/login", logIn)
+
 
 export default authRouter; 
