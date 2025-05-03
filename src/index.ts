@@ -19,7 +19,6 @@ app.use(cors({
     credentials: true
   }));
   
-
 app.use(logger); 
 app.use("/api/v1", apiV1Router); 
 
