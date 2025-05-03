@@ -51,8 +51,8 @@ const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
+            secure: false,
+            sameSite: "lax",
             path: "/",
             maxAge: 24 * 60 * 60 * 1000
         });
@@ -88,8 +88,8 @@ const logOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         res.clearCookie("token", {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
+            secure: false,
+            sameSite: "lax",
             path: "/"
         });
         res.status(200).json({
