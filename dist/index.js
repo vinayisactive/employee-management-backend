@@ -7,12 +7,14 @@ const express_1 = __importDefault(require("express"));
 const routes_1 = __importDefault(require("./routes"));
 const logger_1 = __importDefault(require("./middlewares/logger"));
 const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 8080;
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded());
+app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: '*',
+    origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

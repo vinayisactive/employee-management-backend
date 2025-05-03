@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserDetails = exports.logIn = void 0;
+exports.logOut = exports.getUserDetails = exports.logIn = void 0;
 const database_config_1 = __importDefault(require("../utils/database.config"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -49,11 +49,15 @@ const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }, process.env.JWT_SECRET, {
             expiresIn: "30d",
         });
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            path: "/",
+            maxAge: 24 * 60 * 60 * 1000
+        });
         res.status(200).json({
             message: "User logged in successfully.",
-            data: {
-                token,
-            },
         });
     }
     catch (error) {
@@ -80,3 +84,23 @@ const getUserDetails = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getUserDetails = getUserDetails;
+const logOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            path: "/"
+        });
+        res.status(200).json({
+            message: "User logged out successfully"
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Somethign went wrong",
+            error: error instanceof Error ? error.message : error
+        });
+    }
+});
+exports.logOut = logOut;

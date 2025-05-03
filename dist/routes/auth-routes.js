@@ -9,5 +9,6 @@ const auth_middleware_1 = __importDefault(require("../middlewares/auth-middlewar
 const authRouter = (0, express_1.Router)();
 authRouter
     .get("/", auth_middleware_1.default, auth_controllers_1.getUserDetails)
-    .post("/login", auth_controllers_1.logIn);
+    .post("/login", auth_controllers_1.logIn)
+    .post("/logout", auth_middleware_1.default, auth_controllers_1.logOut);
 exports.default = authRouter;

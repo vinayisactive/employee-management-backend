@@ -59,11 +59,16 @@ export const logIn = async (
       }
     );
 
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 24*60*60*1000
+    })
+
     res.status(200).json({
       message: "User logged in successfully.",
-      data: {
-        token,
-      },
     });
 
   } catch (error) {
@@ -87,6 +92,28 @@ export const  getUserDetails = async(req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       message: "Something went wrong",
+      error: error instanceof Error ? error.message : error
+    })
+  }
+}; 
+
+export const logOut = async(req: Request, res: Response) => {
+  try {
+    
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false, 
+      sameSite: "lax",
+      path: "/"
+    }); 
+
+    res.status(200).json({
+      message: "User logged out successfully"
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Somethign went wrong",
       error: error instanceof Error ? error.message : error
     })
   }

@@ -14,16 +14,15 @@ declare global {
 
 const authMiddleware = async(req: Request, res: Response, next: NextFunction) => {
     try {
-        const authHeader = req.headers.authorization; 
-        if(!authHeader){
-            res.status(401).json({
-                message: "Auth header is missing."
-            }); 
+        const token = req.cookies?.token; 
 
-            return; 
+        if(!token){
+          res.status(401).json({
+            message: "Token is missing."
+          }); 
+
+          return; 
         }
-
-        const token = authHeader?.split(" ")[1]; 
                 
         const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { 
             id: string; 
